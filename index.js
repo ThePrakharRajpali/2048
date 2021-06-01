@@ -63,13 +63,13 @@ class Board {
                 while(j !== 3 && (this.grid[i][j+1].tileValue() == 0 || this.grid[i][j+1].tileValue() == this.grid[i][j].tileValue())){
                     if(this.grid[i][j+1].tileValue() == this.grid[i][j].tileValue()){
                         var nextVal = this.grid[i][j+1].tileValue();
-                        
+
                         this.grid[i][j+1].tileValue(nextVal * 2);
                         this.grid[i][j+1].tileValue(0);
                     } else if(this.grid[i][j+1].tileValue() == 0) {
                         var currVal = this.grid[i][j].tileValue();
 
-                        this.grid[i][j+1].tileValue(nextVal * 2);
+                        this.grid[i][j+1].tileValue(currVal);
                         this.grid[i][j+1].tileValue(0);
                     }
                 }
