@@ -1,6 +1,10 @@
 var isGameOn = true;
 
 var grid = document.getElementsByTagName('td');
+var rightButton = document.getElementById('RightButton');
+var upButton = document.getElementById('UpButton');
+var leftButton = document.getElementById('LeftButton');
+var downButton = document.getElementById('DownButton');
 var gameOn = false;
 var gameScore = 0;  
 
@@ -57,34 +61,42 @@ class Board {
         }
     }
 
+    addRandom() {
+        var randomNum = Math.floor(Math.random() * 16);
+        var y = Math.floor(randomNum / 4);
+        var x = randomNum % 4;
+        while(this.grid[y][x].tileValue != 0){
+            var randomNum = Math.floor(Math.random() * 16);
+            var y = Math.floor(randomNum / 4);
+            var x = randomNum % 4;
+        }
+        this.grid[y][x].value = 2;
+    }
+
     goRight() {
-        for(var j=3; j>-1;j--){
+        for(var j=3; j>=0; j--){
             for(var i=0; i<4; i++){
-                if(this.grid[i][j].tileValue !== 0){
+                if(this.grid[i][j].tileValue != 0){
                     var k = j;
-                    while(k !== 3 && (this.grid[i][k+1].tileValue == 0 || this.grid[i][k+1].tileValue == this.grid[i][k].tileValue())){
-                        if(this.grid[i][k+1].tileValue == this.grid[i][j].tileValue){
+                    while(k !=3 && (this.grid[i][k+1].tileValue == 0 || this.grid[i][k+1].tileValue == this.grid[i][k].tileValue)){
+                        if(this.grid[i][k].tileValue == this.grid[i][k+1].tileValue){
                             var nextVal = this.grid[i][k+1].tileValue;
-
                             this.grid[i][k+1].tileValue = nextVal * 2;
-                            this.grid[i][k+1].tileValue = 0;
-                            k++;
-                        } else if(this.grid[i][k+1].tileValue == 0) {
+                            this.grid[i][k].tileValue = 0;
+                        } else if(this.grid[i][k+1].tileValue == 0){
                             var currVal = this.grid[i][k].tileValue;
-
                             this.grid[i][k+1].tileValue = currVal;
-                            this.grid[i][k+1].tileValue = 0;
-                            k++;
+                            this.grid[i][k].tileValue = 0;
                         }
-
                     }
-                } 
+                }
             }
         }
+        this.addRandom();
     }
 
     goLeft() {
-        for(var j=0; j<3; j++){
+        for(var j=0; j<4; j++){
             for(var i=0; i<4; i++){
                 if(this.grid[i][j].tileValue !== 0){
                     var k = j;
@@ -93,19 +105,21 @@ class Board {
                             var nextVal = this.grid[i][j-1].tileValue;
     
                             this.grid[i][k-1].tileValue = nextVal * 2;
-                            this.grid[i][k-1].tileValue = 0;
+                            this.grid[i][k].tileValue = 0;
                             k--;
                         } else if (this.grid[i][k-1].tileValue == 0) {
                             var currVal = this.grid[i][k].tileValue;
     
                             this.grid[i][k-1].tileValue = currVal;
-                            this.grid[i][k+1].tileValue = 0;
+                            this.grid[i][k].tileValue = 0;
                             k--;
                         }
                     }
                 }
             }
         }
+        this.addRandom();
+
     }
 
     goUp() {
@@ -131,6 +145,7 @@ class Board {
                 }
             }
         }
+        this.addRandom();
     }
 
     goDown() {
@@ -138,7 +153,7 @@ class Board {
             for(var j=0; j<4; j++){
                 if(this.grid[i][j].tileValue != 0){
                     var k = i;
-                    while(k !== 3 && (this.grid[k+1][j].tileValue == 0 || this.grid[k+1][j] == this.grid[k-1][j].tileValue )){
+                    while(k !== 3 && (this.grid[k+1][j].tileValue == 0 || this.grid[k+1][j].tileValue == this.grid[k][j].tileValue )){
                         if(this.grid[k][j].tileValue == this.grid[k+1][j].tileValue){
                             var nextVal = this.grid[k+1][j].tileValue;
 
@@ -156,6 +171,8 @@ class Board {
                 }
             }
         }
+        this.addRandom();
+
     }
 
     get getGrid(){
@@ -166,8 +183,7 @@ class Board {
         var randomNum = Math.floor(Math.random() * 16);
         var y = Math.floor(randomNum / 4);
         var x = randomNum % 4;
-        console.log(y);
-        console.log(x);
+
         this.grid[y][x].value = 2;
     }
 }
@@ -175,9 +191,48 @@ class Board {
 var board = new Board();
 board.initializeGame();
 
-console.log(board.getGrid);
+for(var i = 0; i<16; i++){
+    var row = Math.floor(i / 4);
+    var col = i % 4;
+    grid[i].innerHTML = board.getGrid[row][col].tileValue
+}
 
-board.goLeft();
-console.log(board.getGrid);
+upButton.onclick = () => {
+    board.goUp();
+    for(var i = 0; i<16; i++){
+        var row = Math.floor(i / 4);
+        var col = i % 4;
+        grid[i].innerHTML = board.getGrid[row][col].tileValue
+    }
+}
+
+downButton.onclick = () => {
+    board.goDown();
+    for(var i = 0; i<16; i++){
+        var row = Math.floor(i / 4);
+        var col = i % 4;
+        grid[i].innerHTML = board.getGrid[row][col].tileValue
+    }
+}
+
+rightButton.onclick = () => {
+    board.goRight();
+    for(var i = 0; i<16; i++){
+        var row = Math.floor(i / 4);
+        var col = i % 4;
+        grid[i].innerHTML = board.getGrid[row][col].tileValue
+    }
+}
+
+leftButton.onclick = () => {
+    board.goLeft();
+    for(var i = 0; i<16; i++){
+        var row = Math.floor(i / 4);
+        var col = i % 4;
+        grid[i].innerHTML = board.getGrid[row][col].tileValue
+    }
+}
+
+
 // not end of tile
 // should be empty or same tile
