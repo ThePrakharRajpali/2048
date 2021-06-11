@@ -1,5 +1,5 @@
 var isGameOn = true;
-var grid = document.getElementsByTagName('td');
+// var grid = document.getElementsByTagName('td');
 var rightButton = document.getElementById('RightButton');
 var upButton = document.getElementById('UpButton');
 var leftButton = document.getElementById('LeftButton');
@@ -229,3 +229,4 @@ function moveDown(board) {
 
     return board;
 }
+
