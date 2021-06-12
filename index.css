@@ -21,7 +21,7 @@ body{
 
 .mainHeading{
     grid-area: heading;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .score{
@@ -59,7 +59,7 @@ body{
     grid-template-columns: repeat(4, 1fr);
     gap: 5px;
     grid-auto-rows: 1fr;
-    background-color: #BDAE9B;
+    /* background-color: #BDAE9B; */
     padding: 5px;
     border-radius: 10px;
 }

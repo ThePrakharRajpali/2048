@@ -1,5 +1,5 @@
 var isGameOn = true;
-var grid = document.getElementsByClass('grid-item');
+// var grid = document.getElementsByClass('grid-item');
 var rightButton = document.getElementById('RightButton');
 var upButton = document.getElementById('UpButton');
 var leftButton = document.getElementById('LeftButton');
@@ -158,7 +158,7 @@ function moveUp(board) {
     for(var j=0; j<4; j++){
         var i =1;
         while(i<4){
-            if(i != 0 && baord[i][j] != 0 && board[i-1][j] == 0){
+            if(i != 0 && board[i][j] != 0 && board[i-1][j] == 0){
                 board = swapTile(i, j, i-1, j, board);
                 i--;
             } else {
@@ -180,7 +180,7 @@ function moveUp(board) {
     for(var j=0; j<4; j++){
         var i =1;
         while(i<4){
-            if(i != 0 && baord[i][j] != 0 && board[i-1][j] == 0){
+            if(i != 0 && board[i][j] != 0 && board[i-1][j] == 0){
                 swapTile(i, j, i-1, j, board);
                 i--;
             } else {
@@ -230,3 +230,46 @@ function moveDown(board) {
     return board;
 }
 
+function checkGameOverStatus(board) {
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            if(board[i][j] == 2048){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+rightButton.addEventListener('click', () => {
+    board = moveRight(board);
+    board = addRandom(board);
+    console.table(board);
+});
+
+upButton.addEventListener('click', () => {
+    board = moveUp(board);
+    board = addRandom(board);
+    console.table(board);
+});
+
+leftButton.addEventListener('click', () => {
+    board = moveLeft(board);
+    board = addRandom(board);
+    console.table(board);
+});
+
+downButton.addEventListener('click', () => {
+    board = moveDown(board);
+    board = addRandom(board);
+    console.table(board);
+});
+
+while(isGameOn){
+    if(isFull){
+        isGameOn = false;
+    }
+    else if(checkGameOverStatus){
+        isGameOn = false;
+    }
+}
