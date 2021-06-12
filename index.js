@@ -1,5 +1,5 @@
 var isGameOn = true;
-// var grid = document.getElementsByClass('grid-item');
+var grid = document.getElementsByClassName('grid-item')
 var rightButton = document.getElementById('RightButton');
 var upButton = document.getElementById('UpButton');
 var leftButton = document.getElementById('LeftButton');
@@ -13,12 +13,23 @@ var board = [
     [0, 0, 0, 0]
 ];
 
+var powerOfTwos = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768];
+
 function showBoard(board, grid) {
-    grid.forEach((element, index) => {
-        var x = Math.floor(index / 4);
-        var y = index % 4;
-        element.innerHTML = board[x][y];
-    });
+    for(var i=0; i<16; i++){
+        var value = board[Math.floor(i/4)][i%4];
+        grid[i].innerHTML = value == 0 ? "" : value;
+        if(value != 0){
+            powerOfTwos.forEach(element => {
+                grid[i].classList.remove(`grid-${element}`);
+            });
+            grid[i].classList.add(`grid-${value}`);
+        } else {
+            powerOfTwos.forEach(element => {
+                grid[i].classList.remove(`grid-${element}`);
+            });
+        }
+    }
 }
 
 function isFull(board) {
@@ -208,10 +219,11 @@ function moveDown(board) {
     for(var j=0; j<4; j++){
         var i=3;
         while(i>0){
+            // console.log(i);
             if(board[i][j] == board[i-1][j] && board[i][j] != 0){
                 board = mergeTile(i-1, j, i, j, board);
             }
-            i++;
+            i--;
         }
     }
 
@@ -245,25 +257,42 @@ rightButton.addEventListener('click', () => {
     board = moveRight(board);
     board = addRandom(board);
     console.table(board);
+    showBoard(board, grid);
 });
 
 upButton.addEventListener('click', () => {
     board = moveUp(board);
     board = addRandom(board);
     console.table(board);
+    showBoard(board, grid);
 });
 
 leftButton.addEventListener('click', () => {
     board = moveLeft(board);
     board = addRandom(board);
     console.table(board);
+    showBoard(board, grid);
 });
 
 downButton.addEventListener('click', () => {
     board = moveDown(board);
     board = addRandom(board);
     console.table(board);
+    showBoard(board, grid);
 });
+
+
+for(var i=0; i<16; i++){
+    var value = board[Math.floor(i/4)][i%4];
+    grid[i].innerHTML = value == 0 ? "" : value;
+    if(value != 0){
+        // grid[i].classList.remove();
+        grid[i].classList.toggle(`grid-${value}`);
+    } else {
+        // grid[i].classList.remove();?
+        // console.log(grid[i].className);
+    }
+}
 
 while(isGameOn){
     if(isFull){
@@ -272,4 +301,6 @@ while(isGameOn){
     else if(checkGameOverStatus){
         isGameOn = false;
     }
+
+    showBoard(board, grid);
 }
