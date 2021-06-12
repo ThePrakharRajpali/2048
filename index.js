@@ -92,7 +92,7 @@ function moveRight(board){
     //move --> merge --> move
     for(var i=0; i<4; i++){
         var j=2;
-        while(j != 0){
+        while(j > -1){
             if( j!= 3 && board[i][j] != 0 && board[i][j+1] == 0){
                 board = swapTile(i, j, i, j+1, board);
                 j++;
@@ -115,7 +115,7 @@ function moveRight(board){
 
     for(var i=0; i<4; i++){
         var j=2;
-        while(j != 0){
+        while(j > -1){
             if( j!= 3 && board[i][j] != 0 && board[i][j+1] == 0){
                 board = swapTile(i, j, i, j+1, board);
                 j++;
